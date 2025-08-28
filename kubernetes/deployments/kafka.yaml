@@ -16,8 +16,8 @@ spec:
         app: lambda
     spec:
       containers:
-        - name: lambda-kafka-ctr
-          image: confluentinc/cp-kafka:latest
+        - name: lambda-airflow-ctr
+          image: apache/airflow:2.9.3-python3.11
           ports:
             - containerPort: 9092
             - containerPort: 9093

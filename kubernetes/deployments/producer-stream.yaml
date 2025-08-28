@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: lambda-producer-ctr
-          image: 05261977/lambda-inspired-platform-producer
+          image: 05261977/postgres:latest
           command: [ "python", "producer.py"]
           envFrom:
             - secretRef:
