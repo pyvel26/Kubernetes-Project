@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: lambda-db-setup
+  namespace: dev
+spec:
+  template:
+    spec:
+      containers:
+        - name: lambda-db-setup-ctr
+          image: 05261977/db-setup:v1
+          command: ["python", "db-init.py"]
+          envFrom:
+            - secretRef:
+                name: database-config
+      restartPolicy: OnFailure

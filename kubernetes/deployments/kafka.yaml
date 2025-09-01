@@ -4,20 +4,20 @@ metadata:
   name: lambda-kafka
   namespace: dev
   labels:
-    app: lambda
+    app: lambda-kafka
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: lambda
+      app: lambda-kafka
   template:
     metadata:
       labels:
-        app: lambda
+        app: lambda-kafka
     spec:
       containers:
-        - name: lambda-airflow-ctr
-          image: apache/airflow:2.9.3-python3.11
+        - name: lambda-kafka-ctr
+          image: confluentinc/cp-kafka:latest
           ports:
             - containerPort: 9092
             - containerPort: 9093
@@ -37,13 +37,4 @@ spec:
             - name: KAFKA_ADVERTISED_LISTENERS
               value: "PLAINTEXT://kafka:9092"
             - name: KAFKA_LOG_DIRS
-              value: "/tmp/kraft-combined-airflow-logs"
-          volumeMounts:
-            - name: kafka-config
-              mountPath: /kafka/config/server.properties
-              subPath: server.properties
-      volumes:
-        - name: kafka-config
-          hostPath:
-            path: /mnt/kafka-config
-            type: Directory
+              value: "/var/lib/kafka/data"

@@ -4,16 +4,16 @@ metadata:
   name: lambda-pgadmin
   namespace: dev
   labels:
-    app: lambda
+    app: lambda-pgadmin
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: lambda
+      app: lambda-pgadmin
   template:
     metadata:
       labels:
-        app: lambda
+        app: lambda-pgadmin
     spec:
       containers:
         - name: lambda-pgdamin-ctr

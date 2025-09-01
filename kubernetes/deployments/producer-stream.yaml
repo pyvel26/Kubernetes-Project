@@ -4,21 +4,18 @@ metadata:
   name: lambda-producer-stream
   namespace: dev
   labels:
-    app: lambda
+    app: lambda-producer
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: lambda
+      app: lambda-producer
   template:
     metadata:
       labels:
-        app: lambda
+        app: lambda-producer
     spec:
       containers:
         - name: lambda-producer-ctr
-          image: 05261977/postgres:latest
-          command: [ "python", "producer.py"]
-          envFrom:
-            - secretRef:
-                name: database-config
+          image: 05261977/producer-stream:v1
+          command: ["python", "producer.py"]

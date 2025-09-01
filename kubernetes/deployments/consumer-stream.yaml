@@ -17,8 +17,11 @@ spec:
     spec:
       containers:
         - name: lambda-consumer-ctr
-          image: 05261977/consumer:latest
-          command: ["python", "/app/docker/consumer.py"]
+          image: 05261977/consumer:v1
+          command: ["python", "consumer.py"]
           envFrom:
             - secretRef:
                 name: database-config
+          env:
+            - name: POSTGRES_URL
+              value: http://lambda-postgres:5432

@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: lambda-postres
+  name: lambda-postgres
   namespace: dev
   labels:
-    app: lambda
+    app: lambda-postgres
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: lambda
+      app: lambda-postgres
   template:
     metadata:
       labels:
-        app: lambda
+        app: lambda-postgres
     spec:
       containers:
         - name: lambda-postgres-ctr
@@ -22,4 +22,11 @@ spec:
             - secretRef:
                 name: database-config
           ports:
-          - containerPort: 5432
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc

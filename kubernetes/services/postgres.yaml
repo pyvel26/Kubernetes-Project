@@ -2,6 +2,7 @@
     kind: Service
     metadata:
       name: lambda-postgres
+      namespace: dev
     spec:
       selector:
         app: lambda-postgres

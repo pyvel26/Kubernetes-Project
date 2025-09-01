@@ -2,6 +2,7 @@
     kind: Service
     metadata:
       name: lambda-pgadmin
+      namespace: dev
     spec:
       selector:
         app: lambda-pgadmin
