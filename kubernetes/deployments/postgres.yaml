@@ -23,6 +23,16 @@ spec:
                 name: database-config
           ports:
             - containerPort: 5432
+          readinessProbe:
+            exec:
+              command: [ "pg_isready", "-U", "postgres" ]
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data

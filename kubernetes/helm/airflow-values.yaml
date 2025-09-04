@@ -1,0 +1,58 @@
+postgresql:
+  enabled: true
+  auth:
+    database: airflow
+    username: airflow
+    existingSecret: airflow-secrets
+    secretKeys:
+      adminPasswordKey: postgres-password
+      postgresPasswordKey: postgres-password
+
+webserver:
+  defaultUser:
+    enabled: true
+  resources:
+    limits:
+      memory: 2Gi
+      cpu: 1
+
+
+extraInitContainers:
+  - name: airflow-init
+    image: apache/airflow:2.9.3-python3.11
+    command: ["/bin/bash", "/entrypoint.sh"]
+    volumeMounts:
+      - name: entrypoint-script
+        mountPath: /entrypoint.sh
+        subPath: entrypoint.sh
+
+# Mount the entrypoint script
+extraVolumes:
+  - name: entrypoint-script
+    configMap:
+      name: airflow-entrypoint
+      defaultMode: 0755
+
+
+# Match your current environment variables
+env:
+  - name: "AIRFLOW__SMTP__SMTP_HOST"
+    value: "smtp.protonmail.ch"
+  - name: "AIRFLOW__SMTP__SMTP_PORT"
+    value: "587"
+  - name: "AIRFLOW__CORE__LOAD_EXAMPLES"
+    value: "False"
+  - name: "AIRFLOW__CORE__DEFAULT_TIMEZONE"
+    value: "America/New_York"
+
+
+# Mount your host paths (similar to your current volumes)
+dags:
+  persistence:
+    enabled: true
+    existingClaim: dags-pvc
+
+logs:
+  persistence:
+    enabled: true
+    existingClaim: logs-pvc

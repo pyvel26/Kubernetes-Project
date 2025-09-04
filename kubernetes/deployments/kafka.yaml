@@ -21,6 +21,14 @@ spec:
           ports:
             - containerPort: 9092
             - containerPort: 9093
+          readinessProbe:
+            tcpSocket:
+              port: 9092
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
           env:
             - name: CLUSTER_ID
               value: kafka-cluster-1
