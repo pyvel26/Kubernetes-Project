@@ -16,8 +16,8 @@ spec:
         app: lambda-db-setup
     spec:
       initContainers:
-        - name: db-setup
-          image: 05261977/db-setup:v1
+        - name: lambda-postgres-ctr
+          image: postgres:15
           command: [ "sh", "-c", "until pg_isready -h $DB_HOST -U $DB_USER; do sleep 2; done; python initialize_db.py" ]
           envFrom:
             - secretRef:
