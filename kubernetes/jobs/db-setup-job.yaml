@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-setup-job
+  namespace: dev
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z lambda-postgres 5432; do sleep 2; done' ]
+      containers:
+        - name: lambda-db-setup-ctr
+          image: 05261977/db-setup:v1
+          command: ["python", "db-init.py"]
+          envFrom:
+            - secretRef:
+                name: database-config
+      restartPolicy: OnFailure

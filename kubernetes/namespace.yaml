@@ -4,10 +4,3 @@ metadata:
   name: dev
   labels:
     environment: development
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: prod
-  labels:
-    environment: production

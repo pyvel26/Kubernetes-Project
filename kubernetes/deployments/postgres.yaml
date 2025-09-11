@@ -26,8 +26,6 @@ spec:
           readinessProbe:
             exec:
               command: [ "pg_isready", "-U", "postgres" ]
-            tcpSocket:
-              port: 5432
             initialDelaySeconds: 10
             periodSeconds: 10
             timeoutSeconds: 3

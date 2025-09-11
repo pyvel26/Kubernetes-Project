@@ -1,3 +1,7 @@
 .idea
 airflow-secrets.yaml
 database-secrets.yaml
+.terraform/
+*.tfstate
+*.tfstate.backup
+.crash
