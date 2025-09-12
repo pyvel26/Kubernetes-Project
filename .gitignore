@@ -5,3 +5,4 @@ database-secrets.yaml
 *.tfstate
 *.tfstate.backup
 .crash
+db-secrets.yaml
