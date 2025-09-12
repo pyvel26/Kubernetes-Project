@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: csv-batch-cron
+  namespace: dev
+spec:
+  schedule: "0 5 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          initContainers:
+          - name: wait-for-postgres
+            image: busybox
+            command: ['sh', '-c', 'until nc -z lambda-postgres 5432; do sleep 2; done']
+          containers:
+          - name: lambda-csv-batch-ctr
+            image: 05261977/csv-batch:v2
+            command: [ "python", "processor.py" ]
+            envFrom:
+              - secretRef:
+                  name: database-config
+          restartPolicy: OnFailure

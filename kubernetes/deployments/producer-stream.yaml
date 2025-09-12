@@ -15,7 +15,11 @@ spec:
       labels:
         app: lambda-producer
     spec:
+      initContainers:
+        - name: wait-for-kafka
+          image: busybox:1.36
+          command: [ 'sh', '-c', 'until nc -z kafka-service 9092; do echo "waiting for kafka..."; sleep 2; done' ]
       containers:
         - name: lambda-producer-ctr
-          image: 05261977/producer-stream:v1
+          image: 05261977/producer:v2
           command: ["python", "producer.py"]
