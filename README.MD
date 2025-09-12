@@ -1,20 +1,19 @@
 # Kubernetes Data Platform
 
-This project migrates and extends the [Lambda Data Platform](https://github.com/pyvel26/Lambda-Inspired-Platform) from Docker Compose to Kubernetes, demonstrating cloud-native migration patterns and distributed systems orchestration. The platform maintains the same Lambda architecture with real-time streaming and scheduled batch processing, now deployed with enterprise-grade container orchestration.
+This project migrates and extends the [Lambda Data Platform](https://github.com/pyvel26/Lambda-Inspired-Platform.git) from Docker Compose to Kubernetes, demonstrating cloud-native migration patterns and distributed systems orchestration. The platform maintains the same Lambda architecture with real-time streaming and scheduled batch processing, now deployed with enterprise-grade container orchestration.
 
 ---
 
-## Architecture Evolution
+## Architecture Migration
 
-**Migration Path**: Docker Compose → Kubernetes + Terraform IaC
+**Migration Path**: Docker Compose → Kubernetes + Terraform
 
-The core Lambda architecture remains unchanged while gaining enterprise capabilities:
-- **Horizontal scaling** with replica sets
-- **Service discovery** with DNS-based networking  
+The core Lambda architecture remains unchanged while gaining Kubernetes capabilities:
+- **Pod scaling** with replica sets
+- **Service networking** with DNS-based discovery  
 - **Persistent storage** with PV/PVC management
 - **Infrastructure as Code** with Terraform
-- **Dependency orchestration** with initContainers
-- **Resource management** with requests/limits
+- **Dependency management** with initContainers
 
 ---
 
@@ -22,7 +21,7 @@ The core Lambda architecture remains unchanged while gaining enterprise capabili
 
 ### Real-time Stream Processing:
 - **lambda-producer-stream** (3 replicas): Generates live transaction data and streams to Kafka
-- **kafka-service**: Distributed message broker with ZooKeeper coordination
+- **kafka-service**: Message broker with ZooKeeper coordination
 - **lambda-consumer** (3 replicas): Consumes Kafka streams and writes to PostgreSQL
 
 ### Scheduled Batch Processing:
@@ -54,23 +53,22 @@ lambda-pgadmin → Database Monitoring
 
 ---
 
-## Kubernetes Architecture
+## Kubernetes Implementation
 
 ### Networking:
 - **Services**: ClusterIP for internal communication, NodePort for external access
 - **DNS Discovery**: Pods communicate via service names (kafka-service:9092)
-- **Load Balancing**: Automatic traffic distribution across replicas
+- **Load Balancing**: Traffic distribution across replicas
 
 ### Storage:
 - **Persistent Volumes**: Kafka and Postgres data persistence
-- **Storage Classes**: Dynamic volume provisioning
-- **StatefulSets**: Ordered deployment for stateful services
+- **Volume Claims**: Dynamic storage provisioning
 
 ### Orchestration:
-- **Deployments**: Replica management for stateless services
+- **Deployments**: Replica management for applications
 - **Jobs/CronJobs**: Batch processing automation
 - **InitContainers**: Dependency management and startup ordering
-- **ConfigMaps/Secrets**: Environment configuration management
+- **Secrets**: Environment configuration management
 
 ---
 
@@ -82,12 +80,6 @@ lambda-pgadmin → Database Monitoring
 - **Minikube**: Local development cluster
 - **Docker**: Container runtime and image management
 
-**Resource Management:**
-- **Resource Requests**: Guaranteed resource allocation
-- **Resource Limits**: Maximum resource constraints  
-- **Horizontal Pod Autoscaling**: Automatic scaling based on CPU/memory
-- **Namespace Isolation**: Environment separation (dev namespace)
-
 ---
 
 ## Key Technical Challenges Solved
@@ -98,19 +90,15 @@ lambda-pgadmin → Database Monitoring
 
 ### 2. **Storage Persistence** 
 - **Problem**: Data loss on pod restarts, corrupted volume states
-- **Solution**: Proper PV/PVC lifecycle management with storage class configuration
+- **Solution**: Proper PV/PVC lifecycle management with storage classes
 
 ### 3. **Service Discovery**
 - **Problem**: Hardcoded localhost connections breaking in distributed environment
 - **Solution**: Kubernetes DNS with service-based addressing (kafka-service:9092)
 
 ### 4. **Configuration Management**
-- **Problem**: Environment-specific secrets and configuration drift
+- **Problem**: Environment-specific secrets and configuration
 - **Solution**: Kubernetes Secrets with base64 encoding and envFrom injection
-
-### 5. **Resource Allocation**
-- **Problem**: Pod resource competition and cluster resource exhaustion
-- **Solution**: Resource requests/limits with monitoring via metrics-server
 
 ---
 
@@ -158,6 +146,8 @@ kubectl top nodes
 kubectl logs -f deployment/lambda-producer-stream -n dev
 kubectl logs -f deployment/lambda-consumer -n dev
 ```
+
+---
 
 ## Services & Access
 
@@ -222,36 +212,36 @@ kubectl delete namespace dev --force --grace-period=0
 ```
 Kubernetes-Project/
 ├── kubernetes/
-│   ├── deployments/         # Application deployments
+│   ├── deployments/
 │   │   ├── consumer-stream.yaml
 │   │   ├── kafka.yaml
 │   │   ├── pgadmin.yaml
 │   │   ├── postgres.yaml
 │   │   ├── producer-stream.yaml
 │   │   └── zookeeper.yaml
-│   ├── services/           # Kubernetes services
+│   ├── services/
 │   │   ├── kafka.yaml
 │   │   ├── pgadmin-service.yaml
 │   │   ├── postgres.yaml
 │   │   └── zoo-service.yaml
-│   ├── jobs/               # Batch processing jobs
+│   ├── jobs/
 │   │   ├── cron-batch.yaml
 │   │   └── db-setup-job.yaml
-│   ├── secrets/            # Configuration secrets
+│   ├── secrets/
 │   │   └── database-secrets.yaml
-│   ├── volumes/            # PVC definitions
+│   ├── volumes/
 │   │   ├── kafka-pvc.yaml
 │   │   └── postgres-pvc.yaml
-│   └── namespace.yaml      # Kubernetes namespace
-├── terraform/              # Infrastructure as Code
-│   ├── batch.tf           # Batch processing resources
-│   ├── core.tf            # Core infrastructure
-│   ├── foundation.tf      # Base cluster setup
-│   ├── job_admin.tf       # Job administration
-│   ├── providers.tf       # Terraform providers
-│   ├── stream.tf          # Streaming components
-│   └── terraform.tfstate  # State management
-└── README.md              # Project documentation
+│   └── namespace.yaml
+├── terraform/
+│   ├── batch.tf
+│   ├── core.tf
+│   ├── foundation.tf
+│   ├── job_admin.tf
+│   ├── providers.tf
+│   ├── stream.tf
+│   └── terraform.tfstate
+└── README.md
 ```
 
 ---
@@ -297,8 +287,7 @@ This migration project demonstrates:
 - Environment configuration management
 
 **Distributed Systems:**
-- Service mesh networking concepts
-- Stateful vs stateless service design
+- Container networking and service discovery
 - Data persistence in container environments
 - Load balancing and traffic routing
 - Fault tolerance and recovery patterns

@@ -17,18 +17,18 @@ resource "kubernetes_manifest" "kafka_pvc" {
 
 # 3) Secret: DB credentials/config used by Postgres/pgAdmin later.
 resource "kubernetes_manifest" "db_secret" {
-  manifest   = yamldecode(file("${path.module}/../kubernetes/secrets/database-secrets.yaml"))
+  manifest   = yamldecode(file("${path.module}/../kubernetes/secrets/db-secrets.yaml"))
   depends_on = [kubernetes_manifest.ns]
 }
 
 # 4) Services: stable DNS names other workloads will call later.
 resource "kubernetes_manifest" "postgres_svc" {
-  manifest   = yamldecode(file("${path.module}/../kubernetes/services/postgres.yaml"))
+  manifest   = yamldecode(file("${path.module}/../kubernetes/services/postgres-service.yaml"))
   depends_on = [kubernetes_manifest.ns]
 }
 
 resource "kubernetes_manifest" "kafka_svc" {
-  manifest   = yamldecode(file("${path.module}/../kubernetes/services/kafka.yaml"))
+  manifest   = yamldecode(file("${path.module}/../kubernetes/services/kafka-service.yaml"))
   depends_on = [kubernetes_manifest.ns]
 }
 
