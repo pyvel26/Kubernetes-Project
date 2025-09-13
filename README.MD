@@ -5,7 +5,7 @@ This project migrates and extends the [Lambda Data Platform](https://github.com/
 ---
 
 ## Architecture Migration
-**Migration Path:** Docker Compose → Kubernetes + Terraform
+**Migration Path**: Docker Compose → Kubernetes + Terraform
 
 Gains in Kubernetes:
 - **Pod scaling** with replica sets
@@ -18,21 +18,21 @@ Gains in Kubernetes:
 
 ## Components
 
-### Real-time Stream Processing
+### Real-time Stream Processing:
 - **lambda-producer-stream** (3 replicas): Generates live transaction data and streams to Kafka  
 - **kafka-service**: Message broker with **ZooKeeper** coordination  
 - **lambda-consumer** (3 replicas): Consumes Kafka streams and writes to **PostgreSQL**
 
-### Scheduled Batch Processing
+### Scheduled Batch Processing:
 - **csv-batch-cron**: CronJob scheduling batch processing at midnight  
 - **lambda-csv-batch**: Processes batch transaction data with job tracking
 
-### Data Management
+### Data Management:
 - **lambda-postgres** (3 replicas): PostgreSQL for transaction storage  
 - **lambda-pgadmin**: Database management and monitoring interface  
 - **db-setup-job**: One-time schema initialization job
 
-### Infrastructure Services
+### Infrastructure Services:
 - **zookeeper**: Kafka coordination and metadata management  
 - **kafka-service**: Message streaming with persistent storage
 
@@ -40,16 +40,15 @@ Gains in Kubernetes:
 
 ## Data Flow
 
-**Stream Path:**  
-Live Data → **lambda-producer-stream** → **kafka-service** → **lambda-consumer** → **lambda-postgres**
+### Stream Path:
+Live Data → lambda-producer-stream → kafka-service → lambda-consumer → lambda-postgres
 
-**Batch Path:**  
-CronJob (midnight) → **csv-batch-cron** → **lambda-csv-batch** → **lambda-postgres**
+### Batch Path:  
+CronJob (midnight) → csv-batch-cron → lambda-csv-batch → lambda-postgres
 
-**Management:**  
-**db-setup-job** → PostgreSQL Schema  
-**lambda-pgadmin** → Database Monitoring
-
+### Management:
+db-setup-job → PostgreSQL Schema  
+lambda-pgadmin → Database Monitoring
 ---
 
 ## CI/CD (Terraform)

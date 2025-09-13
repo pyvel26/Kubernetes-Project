@@ -6,3 +6,4 @@ database-secrets.yaml
 *.tfstate.backup
 .crash
 db-secrets.yaml
+Technical_Deep_Dive.md
