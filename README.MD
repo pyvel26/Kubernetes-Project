@@ -65,10 +65,22 @@ A GitHub Actions workflow validates Terraform changes on every push/PR:
 ---
 ## Tech Stack
 
-- **Kubernetes, Terraform, Minikube, Docker**  
-- **Apache Kafka, ZooKeeper, PostgreSQL, pgAdmin**  
-- **Python 3.11** (producers/consumers, batch jobs)  
-- **GitHub Actions** (CI/CD with Terraform + TFLint)  
+**Container Orchestration:**
+- Kubernetes
+- Terraform
+- Minikube
+- Docker
+
+**Data Platform:**
+- Apache Kafka + ZooKeeper
+- PostgreSQL
+- pgAdmin
+- Python 3.11
+
+**Observability:**
+- Kubernetes metrics-server
+- kubectl monitoring
+- Container resource limits
 
 ---
 

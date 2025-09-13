@@ -1,4 +1,4 @@
-# Kubernetes Data Platform
+# Kubernetes Data Platform (with CI/CD)
 
 This project migrates and extends the [Lambda Data Platform](https://github.com/pyvel26/Lambda-Inspired-Platform.git) from Docker Compose to Kubernetes, demonstrating cloud-native migration patterns and distributed systems orchestration. The platform maintains the same Lambda architecture with real-time streaming and scheduled batch processing, now deployed with enterprise-grade container orchestration.
 
@@ -17,7 +17,7 @@ The core Lambda architecture remains unchanged while gaining Kubernetes capabili
 
 ---
 
-## Platform Components
+## Components
 
 ### Real-time Stream Processing:
 - **lambda-producer-stream** (3 replicas): Generates live transaction data and streams to Kafka
@@ -246,7 +246,7 @@ Kubernetes-Project/
 
 ---
 
-## Technologies
+## Tech Stack
 
 **Container Orchestration:**
 - Kubernetes
