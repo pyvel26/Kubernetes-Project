@@ -53,11 +53,12 @@ lambda-pgadmin → Database Monitoring
 
 ## CI/CD (Terraform)
 A GitHub Actions workflow validates Terraform changes on every push/PR:
+-  **TFLint** → best-practice linting 
 - `terraform init` → provider/backend setup  
 - `terraform fmt -check` → formatting enforcement  
-- `terraform validate` → syntax/structure checks  
-- **TFLint** → best-practice linting  
+- `terraform validate` → syntax/structure checks
 - `terraform plan` (CI-safe, no refresh) → preview changes
+ 
 
 > Apply is run locally for Minikube; future improvement is remote apply against a managed cluster.
 
@@ -75,12 +76,6 @@ A GitHub Actions workflow validates Terraform changes on every push/PR:
 - PostgreSQL
 - pgAdmin
 - Python 3.11
-
-**Observability:**
-- Kubernetes metrics-server
-- kubectl monitoring
-- Container resource limits
-
 ---
 
 ## Quick Start
