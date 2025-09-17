@@ -18,7 +18,7 @@ resource "kubernetes_manifest" "kafka" {
     kubernetes_manifest.ns,
     kubernetes_manifest.kafka_pvc,
     kubernetes_manifest.kafka_svc,
-    kubernetes_manifest.zoo_svc
+    kubernetes_manifest.zookeeper
   ]
 }
 
